@@ -1,0 +1,74 @@
+/*
+orange : #FF9800;
+*/
+body{
+	background: #f3f3f3;
+	border-top: solid 5px #FF9800;
+}
+#login-pane{
+	margin-top: 70px;
+}
+.logo{
+	margin: 10px;
+	padding: 20px;
+}
+.logo img{
+	width: 100px;
+}
+.login-panel{
+	padding: 30px;
+	background: #fff;
+	box-shadow: 1px 2px 4px #ccc;
+	border-radius: 5px;
+}
+.input-min{
+	border: none;
+	border-radius: 0;
+	border-bottom: solid 1px #FF9800;
+	box-shadow: none;
+	text-align: center;
+	margin-bottom: 20px;
+	margin-top: 20px;
+	font-family: fontAwesome,arial;
+}
+.btn-orange{
+	background: #FF7700;
+	border: solid thin #FF7700;
+}
+.btn-orange:hover{
+	background: #FF8800;
+	border: solid thin #FF7800;
+}
+p a{
+	color: #000;
+	font-weight: bold;
+}
+p a:hover{
+	text-decoration: none;
+	color: #FF8800;
+}
+.transparan{
+	background: transparent;
+	border: none;
+	padding-top: 20px;
+}
+/*spinner*/
+#spinner{
+	position: fixed;
+	left: 0px;
+	top: 50px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	background: #fff;
+	font-size: 200px;
+	text-align: center;
+	padding-top: 100px;
+}
+#spinner p{
+	font-size: 24px;
+}
+#spinner .small{
+	font-size: 12px;
+}
+/*placeholder*/
