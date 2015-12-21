@@ -118,7 +118,7 @@ if( isset($_POST['apa']) && $_POST['apa']<>"" ){
 				$tglAwal = $_POST['tglAwal'];
 				$tglAkhir = $_POST['tglAkhir'];
 				$supplier = $_POST['supplier'];
-				$q = "SELECT `realisasi_po`.`tgl`, `supplier`.`nama`, `tema_layar`.`tema`, `ukuran`.`panjang`
+				$q = "SELECT `realisasi_po`.`id`, `realisasi_po`.`tgl`, `supplier`.`nama`, `tema_layar`.`tema`, `ukuran`.`panjang`
 						, `ukuran`.`lebar`, `ukuran`.`pre`, `realisasi_po`.`jumlah` FROM `po_detail` 
 						INNER JOIN `po` ON (`po_detail`.`id_po` = `po`.`id`) INNER JOIN `realisasi_po` 
 						ON (`realisasi_po`.`id_detail_po` = `po_detail`.`id`) INNER JOIN `supplier` 
@@ -131,6 +131,7 @@ if( isset($_POST['apa']) && $_POST['apa']<>"" ){
 				if ($query = $data->runQuery($q)) {
 					while ($rs = $query->fetch_array()) {
 						$detail = array();
+						array_push($detail, $rs["id"]);
 						array_push($detail, $rs["tgl"]);
 						array_push($detail, $rs["nama"]);
 						array_push($detail, $rs["tema"]);
@@ -155,6 +156,7 @@ if( isset($_POST['apa']) && $_POST['apa']<>"" ){
 						FROM `do_detail` INNER JOIN `do` ON (`do_detail`.`id_do` = `do`.`id`) INNER JOIN `pelanggan` 
 						ON (`do`.`id_pelanggan` = `pelanggan`.`id`) INNER JOIN `area` ON (`do`.`area` = `area`.`id`) 
 						WHERE `do_detail`.`hapus` = '0' AND `do`.`hapus` = '0' AND `do`.`tgl_do` BETWEEN '$tglAwal' AND '$tglAkhir' 
+						AND `pelanggan`.`area` = ".$_SESSION['media-area']." 
 						GROUP BY `pelanggan`.`nama`";
 				
 				if ($query = $data->runQuery($q)) {

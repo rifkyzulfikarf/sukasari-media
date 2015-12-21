@@ -48,6 +48,7 @@
 			<table class="table table-bordered table-striped table-mod" id="tabel-penerimaan">
 				<thead>
 					<tr>
+						<th>ID</th>
 						<th>Tgl</th>
 						<th>Supplier</th>
 						<th>Tema</th>

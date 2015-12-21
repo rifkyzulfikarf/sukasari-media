@@ -82,33 +82,31 @@ class po_po extends koneksi {
 		}
 	}
 	
-	function generateKodeRealisasi() {	//RLS2015061600001
-		$hari = date("d");
-		$bulan = date("m");
-		$tahun = date("Y");
-		$cari = date("Y-m-d");
+	function generateKodeRealisasi() {	//000/LPB/PROM/XII/2015
+		$blnSekarang = date("m");
+		$thSekarang = date("Y");
+		$cari = $thSekarang."-".$blnSekarang."-";
+		$blnRomawi = $this->getRomawi($blnSekarang);
+		
 		if ($qKode = $this->runQuery("SELECT COUNT(`id`) AS hasil FROM `realisasi_po` WHERE DATE(`timestamp`) LIKE '$cari%'")) {
 			$rsKode = $qKode->fetch_array();
 			if ($rsKode['hasil'] == 0) {
-				$autokode = "RLS".$hari.$bulan.$tahun."00001";
+				$autokode = "0001/LPB/PROM/".$blnRomawi."/".$thSekarang;
 			} else {
 				$autokode = $rsKode['hasil'] + 1;
 				$lenkode = strlen($autokode);
 				switch ($lenkode) {
 					case 1 :
-						$autokode = "RLS".$hari.$bulan.$tahun."0000".$autokode;
+						$autokode = "000".$autokode."/LPB/PROM/".$blnRomawi."/".$thSekarang;
 						break;
 					case 2 :
-						$autokode = "RLS".$hari.$bulan.$tahun."000".$autokode;
+						$autokode = "00".$autokode."/LPB/PROM/".$blnRomawi."/".$thSekarang;
 						break;
 					case 3 :
-						$autokode = "RLS".$hari.$bulan.$tahun."00".$autokode;
+						$autokode = "0".$autokode."/LPB/PROM/".$blnRomawi."/".$thSekarang;
 						break;
 					case 4 :
-						$autokode = "RLS".$hari.$bulan.$tahun."0".$autokode;
-						break;
-					case 5 :
-						$autokode = "RLS".$hari.$bulan.$tahun.$autokode;
+						$autokode = $autokode."/LPB/PROM/".$blnRomawi."/".$thSekarang;
 						break;
 				}
 			}

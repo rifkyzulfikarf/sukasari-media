@@ -44,7 +44,7 @@
 	
 	$startRow = 7; $amount = 0; $totalHarga = 0; $totalJumlah = 0;
 	
-	$q = "SELECT `realisasi_po`.`tgl`, `supplier`.`nama`, `tema_layar`.`tema`, `ukuran`.`panjang`
+	$q = "SELECT `realisasi_po`.`id`, `realisasi_po`.`tgl`, `supplier`.`nama`, `tema_layar`.`tema`, `ukuran`.`panjang`
 		, `ukuran`.`lebar`, `ukuran`.`pre`, `realisasi_po`.`jumlah`, `po_detail`.`harga` FROM `po_detail` 
 		INNER JOIN `po` ON (`po_detail`.`id_po` = `po`.`id`) INNER JOIN `realisasi_po` 
 		ON (`realisasi_po`.`id_detail_po` = `po_detail`.`id`) INNER JOIN `supplier` 
@@ -57,39 +57,40 @@
 		while ($rs = $query->fetch_array()) {
 			$amount = $rs['panjang'] * $rs['lebar'] * $rs['jumlah'] * $rs['harga'];
 			$objExcel->getActiveSheet()->SetCellValue('A'.$startRow, $rs['tgl']);
-			$objExcel->getActiveSheet()->SetCellValue('C'.$startRow, $rs['nama']);
-			$objExcel->getActiveSheet()->SetCellValue('E'.$startRow, $rs['tema']);
-			$objExcel->getActiveSheet()->SetCellValue('F'.$startRow, $rs['pre']." ".$rs['panjang']." x ".$rs['lebar']);
-			$objExcel->getActiveSheet()->SetCellValue('G'.$startRow, $rs['jumlah']);
-			$objExcel->getActiveSheet()->SetCellValue('H'.$startRow, $rs['harga']);
-			$objExcel->getActiveSheet()->SetCellValue('I'.$startRow, $amount);
+			$objExcel->getActiveSheet()->SetCellValue('C'.$startRow, $rs['id']);
+			$objExcel->getActiveSheet()->SetCellValue('D'.$startRow, $rs['nama']);
+			$objExcel->getActiveSheet()->SetCellValue('F'.$startRow, $rs['tema']);
+			$objExcel->getActiveSheet()->SetCellValue('G'.$startRow, $rs['pre']." ".$rs['panjang']." x ".$rs['lebar']);
+			$objExcel->getActiveSheet()->SetCellValue('H'.$startRow, $rs['jumlah']);
+			$objExcel->getActiveSheet()->SetCellValue('I'.$startRow, $rs['harga']);
+			$objExcel->getActiveSheet()->SetCellValue('J'.$startRow, $amount);
 			
 			
 			$objExcel->getActiveSheet()->mergeCells('A'.$startRow.':B'.$startRow);
-			$objExcel->getActiveSheet()->mergeCells('C'.$startRow.':D'.$startRow);
+			$objExcel->getActiveSheet()->mergeCells('D'.$startRow.':E'.$startRow);
 			$objExcel->getActiveSheet()->getRowDimension($startRow)->setRowHeight(-1);
-			$objExcel->getActiveSheet()->getStyle('H'.$startRow)->getNumberFormat()->setFormatCode('#,##0.00');
 			$objExcel->getActiveSheet()->getStyle('I'.$startRow)->getNumberFormat()->setFormatCode('#,##0.00');
+			$objExcel->getActiveSheet()->getStyle('J'.$startRow)->getNumberFormat()->setFormatCode('#,##0.00');
 			$startRow++; $totalHarga = $totalHarga + $amount; $totalJumlah = $totalJumlah + $rs['jumlah'];
 			
 		}
 	}
 	
 	$objExcel->getActiveSheet()->SetCellValue('A'.$startRow, "Total");
-	$objExcel->getActiveSheet()->SetCellValue('G'.$startRow, $totalJumlah);
-	$objExcel->getActiveSheet()->SetCellValue('I'.$startRow, $totalHarga);
-	$objExcel->getActiveSheet()->getStyle('I'.$startRow)->getNumberFormat()->setFormatCode('#,##0.00');
-	$objExcel->getActiveSheet()->mergeCells('A'.$startRow.':F'.$startRow);
+	$objExcel->getActiveSheet()->SetCellValue('H'.$startRow, $totalJumlah);
+	$objExcel->getActiveSheet()->SetCellValue('J'.$startRow, $totalHarga);
+	$objExcel->getActiveSheet()->getStyle('J'.$startRow)->getNumberFormat()->setFormatCode('#,##0.00');
+	$objExcel->getActiveSheet()->mergeCells('A'.$startRow.':G'.$startRow);
 	$objExcel->getActiveSheet()->getStyle('A'.$startRow)->applyFromArray($styleCenter);
-	$objExcel->getActiveSheet()->getStyle('A6:I'.$startRow)->applyFromArray($styleBorder);
+	$objExcel->getActiveSheet()->getStyle('A6:J'.$startRow)->applyFromArray($styleBorder);
 	
 	// WRITE DIGITAL SIGNATURE HEADER
 	$startRow++; $startRow++;
-	$objExcel->getActiveSheet()->SetCellValue('G'.$startRow, "Printed By");
-	$objExcel->getActiveSheet()->mergeCells('G'.$startRow.':H'.$startRow);
+	$objExcel->getActiveSheet()->SetCellValue('H'.$startRow, "Printed By");
+	$objExcel->getActiveSheet()->mergeCells('H'.$startRow.':I'.$startRow);
 	
 	// PROVIDE SPACE FOR DIGITAL SIGNATURE
-	$objExcel->getActiveSheet()->mergeCells('G'.($startRow+1).':H'.($startRow+3));
+	$objExcel->getActiveSheet()->mergeCells('H'.($startRow+1).':I'.($startRow+3));
 	
 	// DRAW DIGITAL SIGNATURE
 	if ($ttdPrintedBy != "-") {
@@ -98,7 +99,7 @@
 			$objPrintedSign->setDescription('ttd ordered image');
 			$objPrintedSign->setPath('../img/'.$ttdPrintedBy);
 			$objPrintedSign->setHeight(60);
-			$objPrintedSign->setCoordinates('G'.($startRow+1));
+			$objPrintedSign->setCoordinates('H'.($startRow+1));
 			$offsetX =(103 - $objPrintedSign->getWidth())/2;
 			$objPrintedSign->setOffsetX($offsetX);
 			$objPrintedSign->setWorksheet($objExcel->getActiveSheet());
@@ -106,13 +107,13 @@
 	}
 	
 	// WRITE DIGITAL SIGNATURE FOOTER
-	$objExcel->getActiveSheet()->SetCellValue('G'.($startRow+4), $printedBy);
-	$objExcel->getActiveSheet()->mergeCells('G'.($startRow+4).':H'.($startRow+4));
-	$objExcel->getActiveSheet()->getStyle('G'.($startRow+4))->getAlignment()->setWrapText(true);
+	$objExcel->getActiveSheet()->SetCellValue('H'.($startRow+4), $printedBy);
+	$objExcel->getActiveSheet()->mergeCells('H'.($startRow+4).':I'.($startRow+4));
+	$objExcel->getActiveSheet()->getStyle('H'.($startRow+4))->getAlignment()->setWrapText(true);
 	
 	// APPLY STYLES IN DIGITAL SIGNATURE
-	$objExcel->getActiveSheet()->getStyle('G'.$startRow.':H'.($startRow+4))->applyFromArray($styleBorder);
-	$objExcel->getActiveSheet()->getStyle('G'.$startRow.':H'.($startRow+4))->applyFromArray($styleCenter);
+	$objExcel->getActiveSheet()->getStyle('H'.$startRow.':I'.($startRow+4))->applyFromArray($styleBorder);
+	$objExcel->getActiveSheet()->getStyle('H'.$startRow.':I'.($startRow+4))->applyFromArray($styleCenter);
 	
 	
 	unset($styleBorder);
