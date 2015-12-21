@@ -22,18 +22,26 @@ if( isset($_SESSION['media-data']) && isset($_REQUEST['data']) && $_REQUEST['dat
 						<input type="hidden" name="spv" id="spv" value="">
 						<input type="hidden" name="cust" id="cust" value="">
 						<input type="hidden" name="job" id="job" value="">
+						<input type="hidden" name="tipe" id="tipe" value="">
 					</form>
 					<div class="head-detail-kunjungan">
 						<div class="row">
 							<div class="col-md-4 pull-left">
+							<?php
+							if ($_REQUEST['ftipe'] == "rekap") {
+							?>
 								<h4><a href="#" id="btn-back" data-link="<?php echo e_url('kunjungan/laporan_kunjungan.php'); ?>" data-hash="laporan-kunjungan" data-awal="<?php echo $_REQUEST['fawal'] ?>" data-akhir="<?php echo $_REQUEST['fakhir'] ?>" data-spv="<?php echo $_REQUEST['fspv'] ?>" data-cust="<?php echo $_REQUEST['fcust'] ?>" data-job="<?php echo $_REQUEST['fjob'] ?>"><i class="fa fa-chevron-left"></i></a></h4>
+							<?php
+							} else {
+							?>
+								<h4><a href="#" id="btn-back" data-link="<?php echo e_url('kunjungan/laporan_harian.php'); ?>" data-hash="laporan-harian" data-awal="<?php echo $_REQUEST['fawal'] ?>" data-akhir="" data-spv="<?php echo $_REQUEST['fspv'] ?>" data-cust="" data-job=""><i class="fa fa-chevron-left"></i></a></h4>
+							<?php
+							}
+							?>
 								<a class="text-danger" onclick="ngePrint();"><i class="fa fa-print"></i> print</a>
 							</div>
 							<div class="col-md-4 text-center">
 								<h4>Detail Kunjungan</h4>
-							</div>
-							<div class="col-md-4 pull-right">
-								<h4><a href="#" class="link-menu" data-link="<?php echo e_url('kunjungan/laporan_harian.php'); ?>" data-hash="laporan-kunjungan"><i class="fa fa-search pull-right text-danger"></i></a></h4>
 							</div>
 						</div>
 						

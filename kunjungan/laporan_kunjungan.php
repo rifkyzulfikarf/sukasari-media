@@ -39,8 +39,7 @@ if( isset($_REQUEST['tgl_awal']) && isset($_REQUEST['tgl_akhir']) && isset($_REQ
 					<input type="hidden" name="fspv" id="fspv" value="">
 					<input type="hidden" name="fcust" id="fcust" value="">
 					<input type="hidden" name="fjob" id="fjob" value="">
-
-
+					<input type="hidden" name="ftipe" id="ftipe" value="">
 				</form>
 
 
@@ -87,7 +86,7 @@ if( isset($_REQUEST['tgl_awal']) && isset($_REQUEST['tgl_akhir']) && isset($_REQ
 								echo substr($details,0,-1);
 
 							echo "</td>
-								<td>Lat:".$rs['latitude']." , long:".$rs['longitude']."<a class='detail_kunjungan' title='Lihat' data-hash='detail-kunjungan' data-link='".e_url('kunjungan/detail_map.php')."' data-data='".$rs['id']."' data-awal='".$_REQUEST['tgl_awal']."' data-akhir='".$_REQUEST['tgl_akhir']."' data-spv='".$_REQUEST['spv']."' data-cust='".$_REQUEST['cust']."' data-job='".$_REQUEST['job']."' href='#'><i class='fa fa-search pull-right text-danger'></i></a></td>
+								<td>Lat:".$rs['latitude']." , long:".$rs['longitude']."<a class='detail_kunjungan' title='Lihat' data-hash='detail-kunjungan' data-link='".e_url('kunjungan/detail_map.php')."' data-data='".$rs['id']."' data-awal='".$_REQUEST['tgl_awal']."' data-akhir='".$_REQUEST['tgl_akhir']."' data-spv='".$_REQUEST['spv']."' data-cust='".$_REQUEST['cust']."' data-job='".$_REQUEST['job']."' data-tipe='rekap' href='#'><i class='fa fa-search pull-right text-danger'></i></a></td>
 							</tr>";
 						}
 					}
@@ -134,10 +133,10 @@ if( isset($_REQUEST['tgl_awal']) && isset($_REQUEST['tgl_akhir']) && isset($_REQ
 
 					<div class="form-group">
 						<div class="col-sm-6">
-							<input type="text" id="tgl_awal" name="tgl_awal" id="inputTgl_awal" class="form-control datepicker" placeholder="tgl awal">
+							<input type="text" id="tgl_awal" name="tgl_awal" id="inputTgl_awal" class="form-control datepicker" placeholder="tgl awal" value="<?php if (isset($_POST['tgl_awal'])) { echo $_POST['tgl_awal']; } ?>">
 						</div>
 						<div class="col-sm-6">
-							<input type="text" id="tgl_akhir" name="tgl_akhir" id="inputTgl_akhir" class="form-control datepicker" placeholder="tgl akhir">
+							<input type="text" id="tgl_akhir" name="tgl_akhir" id="inputTgl_akhir" class="form-control datepicker" placeholder="tgl akhir" value="<?php if (isset($_POST['tgl_akhir'])) { echo $_POST['tgl_akhir']; } ?>">
 						</div>
 					</div>
 					<div class="form-group">
@@ -200,6 +199,7 @@ if( isset($_REQUEST['tgl_awal']) && isset($_REQUEST['tgl_akhir']) && isset($_REQ
 		$('#detail_map').find('#fspv').val( $(this).data('spv') );
 		$('#detail_map').find('#fcust').val( $(this).data('cust') );
 		$('#detail_map').find('#fjob').val( $(this).data('job') );
+		$('#detail_map').find('#ftipe').val( $(this).data('tipe') );
 
 		$('#detail_map').submit();
 
