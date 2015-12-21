@@ -116,7 +116,7 @@
 			if ($layout == "minim") {		//dibalik karena entah kenapa auto height ngga jalan disini
 				$objExcel->getActiveSheet()->getRowDimension($startRow)->setRowHeight(-1);
 			} else {
-				$objExcel->getActiveSheet()->getRowDimension($startRow)->setRowHeight(45);
+				$objExcel->getActiveSheet()->getRowDimension($startRow)->setRowHeight(70);
 			}
 			
 			$objExcel->getActiveSheet()->mergeCells('B'.$startRow.':D'.$startRow);
