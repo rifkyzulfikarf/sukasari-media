@@ -125,6 +125,7 @@
 					<div class="form-group">
 						<label for="idDetailPO" class="col-sm-3 control-label"></label>
 						<div class="col-sm-9">
+							<input type="hidden" name="kirim-idPO" id="kirim-idPO" class="form-control">
 							<input type="hidden" name="kirim-idDetailPO" id="kirim-idDetailPO" class="form-control">
 						</div>
 					</div>
@@ -346,6 +347,7 @@ $(document).ready(function(){
 			$('#modal-detail').modal('hide');
 			$('#modal-tgl-kirim').modal('show');
 			$('#kirim-idDetailPO').val($(this).data("id"));
+			$('#kirim-idPO').val($(this).data("idpo"));
 		}
 	);
 	
@@ -364,7 +366,11 @@ $(document).ready(function(){
 					if (eve.status){
 						alert(eve.msg);
 						$('.btn-close-modal').click();
-						tabelpo.ajax.reload();
+						var idPO = $('#kirim-idPO').val();
+						$('#modal-detail').modal('show');
+						$('#tabel-detail-po tbody').empty();
+						$('#loadingText').text("Loading...");
+						isiTabelDetail(idPO);
 					} else {
 						alert(eve.msg);
 					}
