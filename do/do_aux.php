@@ -97,7 +97,7 @@ if( isset($_POST['apa']) && $_POST['apa']<>"" ){
 				$tglAwal = $_POST['tglAwal'];
 				$tglAkhir = $_POST['tglAkhir'];
 				
-				if ($query = $data->daftar_do("%", $_SESSION['media-id'], $tglAwal, $tglAkhir, "%")) {
+				if ($query = $data->daftar_do($_SESSION['media-area'], $_SESSION['media-id'], $tglAwal, $tglAkhir, "%")) {
 					while ($rs = $query->fetch_array()) {
 						$detail = array();
 						array_push($detail, $rs["no"]);
