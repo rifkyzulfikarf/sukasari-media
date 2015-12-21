@@ -30,11 +30,7 @@
 					Search : 
 					<select class="form-control" id="cmb-area">
 					<?php
-						if ($daftar = $data->runQuery("SELECT `id`, `area` FROM `area` WHERE `hapus` = '0';")) {
-							while ($rs = $daftar->fetch_array()) {
-								echo "<option value='".$rs['id']."'>".$rs['area']."</option>";
-							}
-						}
+						echo "<option value='".$_SESSION['media-area']."'>".$_SESSION['media-namaarea']."</option>";
 					?>
 					</select>
 				</div>

@@ -5,7 +5,8 @@ class do_do extends koneksi{
 
 	function daftar_do( $area, $id_karyawan, $tgl1 , $tgl2 , $status_do ){
 
-		$area = $this->clearText($area);
+		//$area = $this->clearText($area);
+		$area = $_SESSION['media-area'];
 		$id_karyawan = $this->clearText($id_karyawan);
 		$status_do = $this->clearText($status_do);
 
@@ -16,7 +17,7 @@ class do_do extends koneksi{
 			INNER JOIN `level` ON `karyawan`.`level` = `level`.`id` 
 			INNER JOIN `area` ON `area`.`id` = `do`.`area` 
 			INNER JOIN `rayon` ON `pelanggan`.`rayon` = `rayon`.`id` 
-			WHERE `do`.`hapus` = '0' && `do`.`status`<>'0' &&  `do`.`area` like '$area' && `do`.`status` like '$status_do' && (`do`.`tgl_do` BETWEEN '$tgl1' AND '$tgl2' || `do`.`tgl_acc` BETWEEN '$tgl1' AND '$tgl2') ")  ){
+			WHERE `do`.`hapus` = '0' && `do`.`status`<>'0' &&  `do`.`area` = '$area' && `do`.`status` like '$status_do' && (`do`.`tgl_do` BETWEEN '$tgl1' AND '$tgl2' || `do`.`tgl_acc` BETWEEN '$tgl1' AND '$tgl2') ")  ){
 
 			if( $daftar->num_rows > 0 ){
 				return $daftar;

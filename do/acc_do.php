@@ -20,13 +20,8 @@
 				<div class="col-sm-3"><input type="text" name="tglAkhir" id="tglAkhir" class="form-control " placeholder="Tanggal Akhir"></div>
 				<div class="col-sm-3">
 					<select id="cmbArea" class="form-control">
-						<option value="%">Semua</option>
 						<?php
-							if ($result = $data->runQuery("SELECT `id`, `area` FROM `area` WHERE `hapus` = '0';")) {
-								while ($rs = $result->fetch_array()) {
-									echo "<option value='".$rs['id']."'>".$rs['area']."</option>";
-								}
-							}
+							echo "<option value='".$_SESSION['media-area']."'>".$_SESSION['media-namaarea']."</option>";
 						?>
 					</select>
 				</div>
