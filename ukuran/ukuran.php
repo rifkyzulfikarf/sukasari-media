@@ -27,7 +27,6 @@ $data = new ukuran();
 								<input type="hidden" name="apa" id="apa" value="">
 								<input type="hidden" name="aksi" id="aksi" value="<?php echo e_url('ukuran/ukuran_aux.php'); ?>">
 								<input type="hidden" name="id" id="id" value="">
-								<input type="text" name="kode" id="kode" class="form-control" placeholder="Kode Ukuran">
 								<input type="text" name="panjang" id="panjang" class="form-control" placeholder="Panjang">
 								<input type="text" name="lebar" id="lebar" class="form-control" placeholder="Lebar">
 								<input type="text" name="pre" id="pre" class="form-control" placeholder="prefix" value="P MMT">
@@ -48,7 +47,7 @@ $data = new ukuran();
 			<table class="table table-bordered table-striped table-mod" id="tabel-ukuran">
 				<thead>
 					<tr>
-						<th>KODE</th><th>PANJANG</th><th>LEBAR</th><th>PREFIX</th><th></th>
+						<th>PANJANG</th><th>LEBAR</th><th>PREFIX</th><th></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -58,11 +57,10 @@ $data = new ukuran();
 						while( $rs = $daftar->fetch_assoc() ){
 
 							echo "<tr>
-							<td>".$rs['kode']."</td>
 							<td>".$rs['panjang']."</td>
 							<td>".$rs['lebar']."</td>
 							<td>".$rs['pre']."</td>
-							<td> <a href='#' class='btn btn-sm btn-danger btn-orange edit-ukuran' data-id='".$rs['id']."' data-kode='".$rs['kode']."' data-panjang='".$rs['panjang']."' data-lebar='".$rs['lebar']."'>edit</a> 
+							<td> <a href='#' class='btn btn-sm btn-danger btn-orange edit-ukuran' data-id='".$rs['id']."' data-panjang='".$rs['panjang']."' data-lebar='".$rs['lebar']."'>edit</a> 
 							</td></tr>";
 
 						}
@@ -109,7 +107,6 @@ $(document).ready( function () {
     $(document).on('click', '.baru', function(event) {
     	event.preventDefault();
     	$('#apa').val('input-ukuran');
-    	$('#kode').val('');
     	$('#panjang').val('');
     	$('#lebar').val('');
     	$('#modal_ukuran').modal('show');
@@ -119,7 +116,6 @@ $(document).ready( function () {
     	event.preventDefault();
     	$('#apa').val('edit-ukuran');
     	$('#id').val( $(this).data('id') );
-    	$('#kode').val( $(this).data('kode') );
     	$('#panjang').val( $(this).data('panjang') );
     	$('#lebar').val( $(this).data('lebar') );
     	$('#modal_ukuran').modal('show');
