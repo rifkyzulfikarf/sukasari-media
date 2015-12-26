@@ -79,7 +79,7 @@ if( isset($_POST['apa']) && $_POST['apa']<>"" ){
 							$arr['status']=TRUE;
 						}
 					}
-					$simpanNotif = $data->runQuery("INSERT INTO notif(`jenis`, `keterangan`, `untuk_level`,`read`) VALUES('4','PO Baru $idPO','-','0');");
+					$simpanNotif = $data->runQuery("INSERT INTO notif(`jenis`, `keterangan`, `untuk_level`,`read`) VALUES('4','PO Baru $idPO','2','0');");
 					$arr['msg']="Data tersimpan..";
 				} else {
 					$arr['status']=FALSE;
@@ -238,7 +238,7 @@ if( isset($_POST['apa']) && $_POST['apa']<>"" ){
 				$idPO = $_POST['idPO'];
 				
 				if ($acc = $data->simpan_acc_po($idPO, $_SESSION['media-id'])) {
-					$simpanNotif = $data->runQuery("INSERT INTO notif(`jenis`, `keterangan`, `untuk_level`, `read`) VALUES('5','Acc PO $idPO','-','0');");
+					$simpanNotif = $data->runQuery("INSERT INTO notif(`jenis`, `keterangan`, `untuk_level`, `read`) VALUES('5','Acc PO $idPO','3','0');");
 					$arr['status']=TRUE;
 					$arr['msg']="Data tersimpan..";
 				} else {

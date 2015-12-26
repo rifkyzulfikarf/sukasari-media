@@ -37,7 +37,7 @@
 			}
 		}
 		
-		if ($level == "1") {
+		if ($level == "1" || $level == "2") {
 			if ($query = $data->runQuery("SELECT COUNT(id) FROM notif WHERE `jenis` = '4' AND `read` = '0'")) {
 				$rs = $query->fetch_array();
 				if ($rs[0] > 0) {
@@ -47,7 +47,7 @@
 			}
 		}
 		
-		if ($level == "1") {
+		if ($level == "1" || $level == "3") {
 			if ($query = $data->runQuery("SELECT COUNT(id) FROM notif WHERE `jenis` = '5' AND `read` = '0'")) {
 				$rs = $query->fetch_array();
 				if ($rs[0] > 0) {
