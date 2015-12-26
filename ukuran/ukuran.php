@@ -29,7 +29,6 @@ $data = new ukuran();
 								<input type="hidden" name="id" id="id" value="">
 								<input type="text" name="panjang" id="panjang" class="form-control" placeholder="Panjang">
 								<input type="text" name="lebar" id="lebar" class="form-control" placeholder="Lebar">
-								<input type="text" name="pre" id="pre" class="form-control" placeholder="prefix" value="P MMT">
 							</form>
 						</div>
 						<div class="modal-footer">
@@ -47,7 +46,7 @@ $data = new ukuran();
 			<table class="table table-bordered table-striped table-mod" id="tabel-ukuran">
 				<thead>
 					<tr>
-						<th>PANJANG</th><th>LEBAR</th><th>PREFIX</th><th></th>
+						<th>PANJANG</th><th>LEBAR</th><th></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -59,7 +58,6 @@ $data = new ukuran();
 							echo "<tr>
 							<td>".$rs['panjang']."</td>
 							<td>".$rs['lebar']."</td>
-							<td>".$rs['pre']."</td>
 							<td> <a href='#' class='btn btn-sm btn-danger btn-orange edit-ukuran' data-id='".$rs['id']."' data-panjang='".$rs['panjang']."' data-lebar='".$rs['lebar']."'>edit</a> 
 							</td></tr>";
 

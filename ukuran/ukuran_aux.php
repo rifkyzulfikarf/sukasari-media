@@ -10,7 +10,7 @@ if( isset($_POST['apa'])  && $_POST['apa']<>""  ){
 			$arr=array();
 			if(isset($_POST['panjang']) && isset($_POST['lebar']) && $_POST['panjang']!="" && $_POST['lebar']!="" ){
 
-				if( $insert = $data->input_ukuran("-",$_POST['panjang'],$_POST['lebar'],$_POST['pre']) ){
+				if( $insert = $data->input_ukuran("-",$_POST['panjang'],$_POST['lebar'],"P MMT") ){
 					$arr['status'] = TRUE;
 					$arr['msg'] = "Data tersimpan";
 				}else{
@@ -34,7 +34,7 @@ if( isset($_POST['apa'])  && $_POST['apa']<>""  ){
 			$arr=array();
 			if( isset($_POST['id']) && isset($_POST['panjang']) && isset($_POST['lebar']) && $_POST['id']!="" && $_POST['panjang']!="" && $_POST['lebar']!="" ){
 
-				if( $insert = $data->edit_ukuran($_POST['id'],"-",$_POST['panjang'],$_POST['lebar'],$_POST['pre']) ){
+				if( $insert = $data->edit_ukuran($_POST['id'],"-",$_POST['panjang'],$_POST['lebar'],"P MMT") ){
 					$arr['status'] = TRUE;
 					$arr['msg'] = "Data tersimpan";
 				}else{
