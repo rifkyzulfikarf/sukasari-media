@@ -130,6 +130,27 @@ if( isset($_POST['apa']) && $_POST['apa']<>"" ){
 				echo json_encode(array("data"=>$collect));
 			}
 			break;
+		case "daftar-po-ditolak":
+			if (isset($_POST['tglAwal']) && isset($_POST['tglAkhir'])) {
+				$collect = array();
+				$tglAwal = $_POST['tglAwal'];
+				$tglAkhir = $_POST['tglAkhir'];
+				
+				if ($query = $data->getDaftarPO("%", "%", $tglAwal, $tglAkhir, "3")) {
+					while ($rs = $query->fetch_array()) {
+						$detail = array();
+						array_push($detail, $rs["no_po"]);
+						array_push($detail, $rs["tgl_po"]);
+						array_push($detail, $rs["tgl_kirim"]);
+						array_push($detail, $rs["nama"]);
+						array_push($detail, $rs["ket_acc"]);
+						array_push($collect, $detail);
+						unset($detail);
+					}
+				}
+				echo json_encode(array("data"=>$collect));
+			}
+			break;
 		case "acc-daftar-po":
 			if (isset($_POST['tglAwal']) && isset($_POST['tglAkhir'])) {
 				$collect = array();
