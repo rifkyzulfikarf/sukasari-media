@@ -228,7 +228,7 @@ if( isset($_POST['apa']) && $_POST['apa']<>"" ){
 				$idDO = $_POST['idDO'];
 				
 				if ($acc = $data->simpan_acc_do($idDO, $_SESSION['media-id'])) {
-					$simpanNotif = $data->runQuery("INSERT INTO notif(`jenis`, `keterangan`, `untuk_level`, `read`) VALUES('2','Acc DO $idDO','2','0');");
+					//$simpanNotif = $data->runQuery("INSERT INTO notif(`jenis`, `keterangan`, `untuk_level`, `read`) VALUES('2','Acc DO $idDO','2','0');");
 					$simpanNotif = $data->runQuery("INSERT INTO notif(`jenis`, `keterangan`, `untuk_level`, `read`) VALUES('2','Acc DO $idDO','3','0');");
 					$arr['status']=TRUE;
 					$arr['msg']="Data tersimpan..";
