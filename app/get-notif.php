@@ -57,8 +57,8 @@
 			}
 		}
 		
-		if ($level == "1") {
-			if ($query = $data->runQuery("SELECT COUNT(id) FROM notif WHERE `jenis` = '6' AND `read` = '0'")) {
+		if ($level == "1" || $level == "3" || $level == "4" || $level == "5") {
+			if ($query = $data->runQuery("SELECT COUNT(id) FROM notif WHERE `jenis` = '6' AND `untuk_level` = '$level' AND `read` = '0'")) {
 				$rs = $query->fetch_array();
 				if ($rs[0] > 0) {
 					$listNotif .= "<li><a>".$rs[0]." PO Ditolak</a></li>";

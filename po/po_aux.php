@@ -276,7 +276,7 @@ if( isset($_POST['apa']) && $_POST['apa']<>"" ){
 				$ket = $_POST['ket'];
 				
 				if ($tolak = $data->simpan_tolak_po($idPO, $_SESSION['media-id'], $ket)) {
-					$simpanNotif = $data->runQuery("INSERT INTO notif(`jenis`, `keterangan`, `untuk_level`, `read`) VALUES('6','Tolak PO $idPO','-','0');");
+					$simpanNotif = $data->runQuery("INSERT INTO notif(`jenis`, `keterangan`, `untuk_level`, `read`) VALUES('6','Tolak PO $idPO','3','0'),('6','Tolak PO $idPO','4','0'),('6','Tolak PO $idPO','5','0');");
 					$arr['status']=TRUE;
 					$arr['msg']="Data tersimpan..";
 				} else {
