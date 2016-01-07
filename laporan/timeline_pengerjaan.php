@@ -44,6 +44,7 @@ if (isset($_POST['no_do']) && $_POST['no_do'] != ""){
 							<th class="text-center">Tgl Acc PO</th>
 							<th class="text-center">Tgl Ke Supplier</th>
 							<th class="text-center">Tgl Dari Supplier</th>
+							<th class="text-center">Tgl Ke Sales</th>
 							<th class="text-center">Tgl Ke Tujuan</th>
 							<th class="text-center">Total Hari</th>
 						</tr>
@@ -52,7 +53,7 @@ if (isset($_POST['no_do']) && $_POST['no_do'] != ""){
 					<?php 
 					$query = "SELECT `po_detail`.`id` AS `id_detail_po`, `do_detail`.`deskripsi`, `ukuran`.`panjang`, `ukuran`.`lebar`, `ukuran`.`pre`, `do_detail`.`jml`, 
 							`do`.`tgl_do`, `do`.`tgl_acc` AS `tgl_acc_do` , `po`.`no_po`, `po`.`tgl_po` AS `tgl_po`, `po`.`tgl_acc` AS `tgl_acc_po`, `po`.`tgl_kirim_ke_supplier`, 
-							`po_detail`.`tgl_kirim` FROM `do_detail` INNER JOIN `do` ON (`do_detail`.`id_do` = `do`.`id`) INNER JOIN `po_detail` 
+							`po_detail`.`tgl_kirim`, `po_detail`.`tgl_kirim_ke_sales` FROM `do_detail` INNER JOIN `do` ON (`do_detail`.`id_do` = `do`.`id`) INNER JOIN `po_detail` 
 							ON (`po_detail`.`id_do_detail` = `do_detail`.`id`) INNER JOIN `tema_layar` ON (`do_detail`.`id_tema_layar` = `tema_layar`.`id`) 
 							INNER JOIN `ukuran` ON (`do_detail`.`id_ukuran` = `ukuran`.`id`) INNER JOIN `po` ON (`po_detail`.`id_po` = `po`.`id`) WHERE 
 							`do`.`no` = '".$_POST['no_do']."';";
@@ -75,6 +76,7 @@ if (isset($_POST['no_do']) && $_POST['no_do'] != ""){
 							$tglaccpo = ($rs['tgl_acc_po']!="0000-00-00")?date("d-m-y",strtotime($rs['tgl_acc_po'])):"00-00-00";
 							$tglkesup = ($rs['tgl_kirim_ke_supplier']!="0000-00-00")?date("d-m-y",strtotime($rs['tgl_kirim_ke_supplier'])):"00-00-00";
 							$tglkirim = ($rs['tgl_kirim']!="0000-00-00")?date("d-m-y",strtotime($rs['tgl_kirim'])):"00-00-00";
+							$tglkirimsales = ($rs['tgl_kirim_ke_sales']!="0000-00-00")?date("d-m-y",strtotime($rs['tgl_kirim_sales'])):"00-00-00";
 							
 							if ($tglpo != "00-00-00" && $tglkirim != "00-00-00") {
 								$durasi = floor((strtotime($rs['tgl_kirim'])-strtotime($rs['tgl_po']))/(60*60*24));
@@ -92,6 +94,7 @@ if (isset($_POST['no_do']) && $_POST['no_do'] != ""){
 								<td class='text-center'>".$tglaccpo."</td>
 								<td class='text-center'>".$tglkesup."</td>
 								<td class='text-center'>".$tglRealisasi."</td>
+								<td class='text-center'>".$tglkirimsales."</td>
 								<td class='text-center'>".$tglkirim."</td>
 								<td class='text-center'>".$durasi."</td>";
 							echo "</tr>";
