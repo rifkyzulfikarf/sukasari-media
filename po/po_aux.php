@@ -250,10 +250,11 @@ if( isset($_POST['apa']) && $_POST['apa']<>"" ){
 			break;
 		case "simpan-tolak-po":
 			$arr=array();
-			if (isset($_POST['idPO'])) {
+			if (isset($_POST['idPO']) && $_POST['idPO'] != "" && isset($_POST['ket']) && $_POST['ket'] != "") {
 				$idPO = $_POST['idPO'];
+				$ket = $_POST['ket'];
 				
-				if ($tolak = $data->simpan_tolak_po($idPO, $_SESSION['media-id'])) {
+				if ($tolak = $data->simpan_tolak_po($idPO, $_SESSION['media-id'], $ket)) {
 					$simpanNotif = $data->runQuery("INSERT INTO notif(`jenis`, `keterangan`, `untuk_level`, `read`) VALUES('6','Tolak PO $idPO','-','0');");
 					$arr['status']=TRUE;
 					$arr['msg']="Data tersimpan..";

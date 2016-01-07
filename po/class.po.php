@@ -208,11 +208,12 @@ class po_po extends koneksi {
 		}
 	}
 	
-	function simpan_tolak_po($id, $acc) {
+	function simpan_tolak_po($id, $acc, $keterangan) {
 		$id = $this->clearText($id);
 		$acc = $this->clearText($acc);
+		$keterangan = $this->clearText($keterangan);
 		$tgl = date("Y-m-d");
-		if ($acc = $this->runQuery("UPDATE `po` SET `status` = '3', acc = '$acc', tgl_acc = '$tgl' WHERE `id` = $id")) {
+		if ($acc = $this->runQuery("UPDATE `po` SET `status` = '3', acc = '$acc', tgl_acc = '$tgl', ket_acc = '$keterangan' WHERE `id` = $id")) {
 			return TRUE;
 		} else {
 			return FALSE;

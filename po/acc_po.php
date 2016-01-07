@@ -85,6 +85,25 @@
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<div class="modal fade" id="modal-tolak">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header custom orange">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title"><i class="fa fa-list"></i> Tolak PO</h4>
+			</div>
+			<div class="modal-body">
+				<input type="hidden" name="id-tolak-po" id="id-tolak-po" value="">
+				<input type="text" name="keterangan-tolak" id="keterangan-tolak" class="form-control" placeholder="Keterangan Penolakan">
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default btn-close-modal" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-danger btn-simpan-tolak">Simpan <i class="fa fa-send"></i></button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 <script>
 $(document).ready(function(){
 	
@@ -153,17 +172,26 @@ $(document).ready(function(){
 	
 	$("#tabel-po tbody").on("click",".btn-tolak-po", function(ev){
 		ev.preventDefault();
-		var idPO = $(this).data("id");
+		$('#keterangan-tolak').val("");
+		$('#id-tolak-po').val($(this).data('id'));
+		$('#modal-tolak').modal('show');
+	});
+	
+	$('.btn-simpan-tolak').click(function(ev){
+		ev.preventDefault();
+		var idPO = $('#id-tolak-po').val();
+		var keterangan = $('#keterangan-tolak').val();
 		if (confirm("Apakah benar akan di tolak ?")) {
 			$.ajax({
 				url: "./",
 				method: "POST",
 				cache: false,
 				dataType: "JSON",
-				data: {"aksi" : "<?php echo e_url('po/po_aux.php'); ?>", "title" : "P.O.", "apa" : "simpan-tolak-po", "idPO" : idPO},
+				data: {"aksi" : "<?php echo e_url('po/po_aux.php'); ?>", "title" : "P.O.", "apa" : "simpan-tolak-po", "idPO" : idPO, "ket" : keterangan},
 				success: function(eve) {
 					if (eve.status) {
 						alert(eve.msg);
+						$('.btn-close-modal').click();
 						tabelpo.ajax.reload();
 					} else {
 						alert(eve.msg);
