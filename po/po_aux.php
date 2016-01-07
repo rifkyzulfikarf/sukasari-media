@@ -197,10 +197,11 @@ if( isset($_POST['apa']) && $_POST['apa']<>"" ){
 				
 				if ($query = $data->getDetailPO($idDO)) {
 					while ($rs = $query->fetch_array()) {
-						$btn = "<button class='btn btn-sm btn-ubah-tgl-kirim btn-orange' id='btn-ubah-tgl-kirim' data-id='".$rs[0]."' data-idpo='".$rs[1]."'><i class='fa fa-calendar'></i></button> 
-								<button class='btn btn-sm btn-danger btn-delete-item-detail' id='btn-delete-item-detail' data-id='".$rs[0]."' data-idpo='".$rs[1]."'><i class='fa fa-trash'></i></button>";
+						$tglkirim = $rs["tgl_kirim"]." <button class='btn btn-sm btn-ubah-tgl-kirim btn-orange' id='btn-ubah-tgl-kirim' data-id='".$rs[0]."' data-idpo='".$rs[1]."'><i class='fa fa-calendar'></i></button>";
+						$tglsales = $rs["tgl_kirim_ke_sales"]." <button class='btn btn-sm btn-ubah-tgl-kirim-sales btn-orange' id='btn-ubah-tgl-kirim-sales' data-id='".$rs[0]."' data-idpo='".$rs[1]."'><i class='fa fa-calendar'></i></button>";
+						$btn = "<button class='btn btn-sm btn-danger btn-delete-item-detail' id='btn-delete-item-detail' data-id='".$rs[0]."' data-idpo='".$rs[1]."'><i class='fa fa-trash'></i></button>";
 						$luas = $rs["panjang"] * $rs["lebar"] * $rs["jml"];
-						$detail[] = array("gsm"=>$rs["bahan"],"deskripsi"=>$rs["deskripsi"],"tema"=>$rs["tema"],"ukuran"=>($rs["panjang"]." x ".$rs["lebar"]),"jml"=>$rs["jml"],"luas"=>$luas,"unit"=>("Rp ".number_format($rs["harga/m"],0,",",".")),"subtotal"=>("Rp ".number_format($rs["subtotal"],0,",",".")),"tglkirim"=>$rs["tgl_kirim"],"btn"=>$btn);
+						$detail[] = array("gsm"=>$rs["bahan"],"deskripsi"=>$rs["deskripsi"],"tema"=>$rs["tema"],"ukuran"=>($rs["panjang"]." x ".$rs["lebar"]),"jml"=>$rs["jml"],"luas"=>$luas,"unit"=>("Rp ".number_format($rs["harga/m"],0,",",".")),"subtotal"=>("Rp ".number_format($rs["subtotal"],0,",",".")),"tglsales"=>$tglsales,"tglkirim"=>$tglkirim,"btn"=>$btn);
 					}
 				}
 				echo json_encode($detail);
@@ -372,6 +373,22 @@ if( isset($_POST['apa']) && $_POST['apa']<>"" ){
 			$arr=array();
 			if (isset($_POST['idDetail']) && isset($_POST['tgl']) && $_POST['idDetail'] != "" && $_POST['tgl'] != "") {
 				if ($ubah = $data->ubah_tgl_kirim_ke_tujuan($_POST['idDetail'], $_POST['tgl'])) {
+					$arr['status']=TRUE;
+					$arr['msg']="Data tersimpan..";
+				} else {
+					$arr['status']=FALSE;
+					$arr['msg']="Gagal menyimpan..";
+				}
+			} else {
+				$arr['status']=FALSE;
+				$arr['msg']="Lengkapi dahulu..";
+			}
+			echo json_encode($arr);
+			break;
+		case "ubah-tgl-kirim-ke-sales" :
+			$arr=array();
+			if (isset($_POST['idDetail']) && isset($_POST['tgl']) && $_POST['idDetail'] != "" && $_POST['tgl'] != "") {
+				if ($ubah = $data->ubah_tgl_kirim_ke_sales($_POST['idDetail'], $_POST['tgl'])) {
 					$arr['status']=TRUE;
 					$arr['msg']="Data tersimpan..";
 				} else {

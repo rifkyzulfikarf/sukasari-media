@@ -69,6 +69,7 @@
 								<th>Meter<sup>2</sup></th>
 								<th>Unit Price</th>
 								<th>Subtotal</th>
+								<th>Tgl Kirim Ke Sales</th>
 								<th>Tgl Kirim Ke Tujuan</th>
 								<th></th>
 							</tr>
@@ -118,7 +119,7 @@
 		<div class="modal-content">
 			<div class="modal-header custom orange">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4 class="modal-title"><i class="fa fa-list"></i> Tanggal Kirim Ke Pembuat DO</h4>
+				<h4 class="modal-title"><i class="fa fa-list"></i> Tanggal Kirim Ke Tujuan</h4>
 			</div>
 			<div class="modal-body">
 				<form action="#" id="form-input" class="form-horizontal" method="POST">
@@ -141,6 +142,39 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default btn-close-modal" data-dismiss="modal">Close</button>
 				<button type="button" class="btn btn-danger" id="btn-simpan-kirim">Simpan <i class="fa fa-send"></i></button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="modal-tgl-kirim-sales">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header custom orange">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title"><i class="fa fa-list"></i> Tanggal Kirim Ke Pembuat DO</h4>
+			</div>
+			<div class="modal-body">
+				<form action="#" id="form-input" class="form-horizontal" method="POST">
+					<div class="form-group">
+						<label for="idDetailPO" class="col-sm-3 control-label"></label>
+						<div class="col-sm-9">
+							<input type="hidden" name="sales-idPO" id="sales-idPO" class="form-control">
+							<input type="hidden" name="sales-idDetailPO" id="sales-idDetailPO" class="form-control">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="tglRealisasi" class="col-sm-3 control-label">Tanggal Kirim ke Pembuat DO</label>
+						<div class="col-sm-9">
+							<input type="text" name="sales-Tanggal" id="sales-Tanggal" class="form-control">
+						</div>
+					</div>
+					<div><center><h3><i class='loading' id="loading" class='fa fa-refresh fa-spin'></i></h3></center></div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default btn-close-modal" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-danger" id="btn-simpan-kirim-sales">Simpan <i class="fa fa-send"></i></button>
 			</div>
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
@@ -174,6 +208,13 @@ $(document).ready(function(){
 	});
 	
 	$("#kirim-Tanggal").datepicker('setDate', new Date());
+	
+	$("#sales-Tanggal").datepicker({
+		dateFormat : "yy-mm-dd",
+		disabled : true
+	});
+	
+	$("#sales-Tanggal").datepicker('setDate', new Date());
 	
 	tabelpo = $('#tabel-po').DataTable({
 		ajax:{
@@ -328,7 +369,7 @@ $(document).ready(function(){
 			success: function(response){
 				var trHTML = '';
 				$.each(response, function (i, item) {
-					trHTML += '<tr><td>'+  item.gsm + '</td><td>' + item.deskripsi + '</td><td>' + item.tema + '</td><td>' + item.ukuran + '</td><td>' + item.jml + '</td><td>' + item.luas + '</td><td>' + item.unit + '</td><td>' + item.subtotal + '</td><td>' + item.tglkirim + '</td><td>' + item.btn +'</td></tr>';
+					trHTML += '<tr><td>'+  item.gsm + '</td><td>' + item.deskripsi + '</td><td>' + item.tema + '</td><td>' + item.ukuran + '</td><td>' + item.jml + '</td><td>' + item.luas + '</td><td>' + item.unit + '</td><td>' + item.subtotal + '</td><td>' + item.tglsales + '</td><td>' + item.tglkirim + '</td><td>' + item.btn +'</td></tr>';
 				});
 				$('#tabel-detail-po tbody').append(trHTML);
 				$('#loadingText').text("");
@@ -351,6 +392,16 @@ $(document).ready(function(){
 		}
 	);
 	
+	$("#tabel-detail-po tbody").on("click",".btn-ubah-tgl-kirim-sales",
+		function(ev){
+			ev.preventDefault();
+			$('#modal-detail').modal('hide');
+			$('#modal-tgl-kirim-sales').modal('show');
+			$('#sales-idDetailPO').val($(this).data("id"));
+			$('#sales-idPO').val($(this).data("idpo"));
+		}
+	);
+	
 	$('#btn-simpan-kirim').click(function(ev){
 		ev.preventDefault();
 		var idDetail = $('#kirim-idDetailPO').val();
@@ -367,6 +418,39 @@ $(document).ready(function(){
 						alert(eve.msg);
 						$('.btn-close-modal').click();
 						var idPO = $('#kirim-idPO').val();
+						$('#modal-detail').modal('show');
+						$('#tabel-detail-po tbody').empty();
+						$('#loadingText').text("Loading...");
+						isiTabelDetail(idPO);
+					} else {
+						alert(eve.msg);
+					}
+				},
+				error: function(err){
+					console.log("AJAX error in request: " + JSON.stringify(err, null, 2));
+					alert('Gagal terkoneksi dengan server..');
+				}
+
+			});
+		}
+	});
+	
+	$('#btn-simpan-kirim-sales').click(function(ev){
+		ev.preventDefault();
+		var idDetail = $('#sales-idDetailPO').val();
+		var tgl = $('#sales-Tanggal').val();
+		if(confirm('Ubah tanggal kirim ke pembuat do ?')){
+			$.ajax({
+				url: "./",
+				method: "POST",
+				cache: false,
+				dataType: "JSON",
+				data: {"aksi" : "<?php echo e_url('po/po_aux.php'); ?>", "title" : "P.O.", "apa" : "ubah-tgl-kirim-ke-sales", "idDetail" : idDetail, "tgl" : tgl},
+				success: function(eve){
+					if (eve.status){
+						alert(eve.msg);
+						$('.btn-close-modal').click();
+						var idPO = $('#sales-idPO').val();
 						$('#modal-detail').modal('show');
 						$('#tabel-detail-po tbody').empty();
 						$('#loadingText').text("Loading...");

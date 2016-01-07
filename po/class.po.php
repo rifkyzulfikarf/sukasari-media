@@ -161,8 +161,8 @@ class po_po extends koneksi {
 		$subtotal = $this->clearText($subtotal);
 		$hapus = $this->clearText($hapus);
 		
-		if ($simpan = $this->runQuery("INSERT INTO `po_detail`(`id_po`, `id_do_detail`, `id_jenis_layar`, `harga`, `subtotal`, `tgl_kirim`, `hapus`) VALUES 
-						('$no', '$idItem', '$idLayar', '$harga', '$subtotal', '0000-00-00', '$hapus')")) {
+		if ($simpan = $this->runQuery("INSERT INTO `po_detail`(`id_po`, `id_do_detail`, `id_jenis_layar`, `harga`, `subtotal`, `tgl_kirim`, `tgl_kirim_ke_sales`, `hapus`) VALUES 
+						('$no', '$idItem', '$idLayar', '$harga', '$subtotal', '0000-00-00', '0000-00-00', '$hapus')")) {
 			return TRUE;
 		} else {
 			return FALSE;
@@ -251,6 +251,17 @@ class po_po extends koneksi {
 		$tgl = $this->clearText($tgl);
 		
 		if ($ubah = $this->runQuery("UPDATE `po_detail` SET `tgl_kirim` = '$tgl' WHERE `id` = $idDetail")) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+	
+	function ubah_tgl_kirim_ke_sales($idDetail, $tgl) {
+		$idDetail = $this->clearText($idDetail);
+		$tgl = $this->clearText($tgl);
+		
+		if ($ubah = $this->runQuery("UPDATE `po_detail` SET `tgl_kirim_ke_sales` = '$tgl' WHERE `id` = $idDetail")) {
 			return TRUE;
 		} else {
 			return FALSE;
