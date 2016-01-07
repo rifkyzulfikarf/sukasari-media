@@ -11,7 +11,7 @@
 			if ($query = $data->runQuery("SELECT COUNT(id) FROM notif WHERE `jenis` = '1' AND `read` = '0' AND untuk_level = '$level'")) {
 				$rs = $query->fetch_array();
 				if ($rs[0] > 0) {
-					$listNotif .= "<li><a>".$rs[0]." DO Baru</a></li>";
+					$listNotif .= "<li><a>".$rs[0]." DO Diajukan</a></li>";
 					$jumlahNotif = $jumlahNotif + 1;
 				}
 			}
@@ -41,7 +41,7 @@
 			if ($query = $data->runQuery("SELECT COUNT(id) FROM notif WHERE `jenis` = '4' AND `read` = '0'")) {
 				$rs = $query->fetch_array();
 				if ($rs[0] > 0) {
-					$listNotif .= "<li><a>".$rs[0]." PO Baru</a></li>";
+					$listNotif .= "<li><a>".$rs[0]." PO Diajukan</a></li>";
 					$jumlahNotif = $jumlahNotif + 1;
 				}
 			}
