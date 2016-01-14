@@ -21,7 +21,15 @@
 				<div class="col-sm-3">
 					<select id="cmbArea" class="form-control">
 						<?php
-							echo "<option value='".$_SESSION['media-area']."'>".$_SESSION['media-namaarea']."</option>";
+							if ($_SESSION['media-status'] == e_code("2") || $_SESSION['media-status'] == e_code("9")) {
+								if ($result = $data->runQuery("SELECT `id`, `area` FROM `area` WHERE `hapus` = '0'")) {
+									while ($rs = $result->fetch_array()) {
+										echo "<option value='".$rs['id']."'>".$rs['area']."</option>";
+									}
+								}
+							} else {
+								echo "<option value='".$_SESSION['media-area']."'>".$_SESSION['media-namaarea']."</option>";
+							}
 						?>
 					</select>
 				</div>

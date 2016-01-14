@@ -152,11 +152,18 @@ if( isset($_POST['apa']) && $_POST['apa']<>"" ){
 				$collect = array();
 				$tglAwal = $_POST['tglAwal'];
 				$tglAkhir = $_POST['tglAkhir'];
+				
+				if ($_SESSION['media-status'] == e_code("2") || $_SESSION['media-status'] == e_code("9")) {
+					$area = "%";
+				} else {
+					$area = $_SESSION['media-area'];
+				}
+				
 				$q = "SELECT `pelanggan`.`id`, `pelanggan`.`noreg`, `pelanggan`.`nama`, `pelanggan`.`alamat`, `area`.`area`, SUM(`do_detail`.`jml`) AS jumlah 
 						FROM `do_detail` INNER JOIN `do` ON (`do_detail`.`id_do` = `do`.`id`) INNER JOIN `pelanggan` 
 						ON (`do`.`id_pelanggan` = `pelanggan`.`id`) INNER JOIN `area` ON (`do`.`area` = `area`.`id`) 
 						WHERE `do_detail`.`hapus` = '0' AND `do`.`hapus` = '0' AND `do`.`tgl_do` BETWEEN '$tglAwal' AND '$tglAkhir' 
-						AND `pelanggan`.`area` = ".$_SESSION['media-area']." 
+						AND `pelanggan`.`area` LIKE '".$area."' 
 						GROUP BY `pelanggan`.`nama`";
 				
 				if ($query = $data->runQuery($q)) {

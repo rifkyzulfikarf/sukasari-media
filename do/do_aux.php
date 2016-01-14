@@ -97,7 +97,13 @@ if( isset($_POST['apa']) && $_POST['apa']<>"" ){
 				$tglAwal = $_POST['tglAwal'];
 				$tglAkhir = $_POST['tglAkhir'];
 				
-				if ($query = $data->daftar_do($_SESSION['media-area'], $_SESSION['media-id'], $tglAwal, $tglAkhir, "%")) {
+				if ($_SESSION['media-status'] == e_code("2") || $_SESSION['media-status'] == e_code("9")) {
+					$area = "%";
+				} else {
+					$area = $_SESSION['media-area'];
+				}
+				
+				if ($query = $data->daftar_do($area, $_SESSION['media-id'], $tglAwal, $tglAkhir, "%")) {
 					while ($rs = $query->fetch_array()) {
 						$detail = array();
 						array_push($detail, $rs["no"]);
