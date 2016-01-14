@@ -37,16 +37,16 @@ if (isset($_POST['no_do']) && $_POST['no_do'] != ""){
 						<tr>
 							<th class="text-center">Keterangan</th>
 							<th class="text-center">Ukuran</th>
-							<th class="text-center">Tgl DO</th>
-							<th class="text-center">Tgl Acc DO</th>
+							<th class="text-center">Input DO</th>
+							<th class="text-center">Acc DO</th>
 							<th class="text-center">No PO</th>
-							<th class="text-center">Tgl PO</th>
-							<th class="text-center">Tgl Acc PO</th>
-							<th class="text-center">Tgl Ke Supplier</th>
-							<th class="text-center">Tgl Dari Supplier</th>
-							<th class="text-center">Tgl Ke Sales</th>
-							<th class="text-center">Tgl Ke Tujuan</th>
-							<th class="text-center">Total Hari</th>
+							<th class="text-center">Input PO</th>
+							<th class="text-center">Acc PO</th>
+							<th class="text-center">Kirim</th>
+							<th class="text-center">Realisasi</th>
+							<th class="text-center">Distribusi</th>
+							<th class="text-center">Terima</th>
+							<th class="text-center">Durasi</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -105,6 +105,8 @@ if (isset($_POST['no_do']) && $_POST['no_do'] != ""){
 
 					</tbody>
 				</table>
+				<p class="text-muted small">*) Kirim : PO kirim ke supplier *) Realisasi : Terima barang dari supplier 
+				*) Distribusi : Kirim barang ke sales / depo *) Terima : Barang diterima pelanggan</p>
 				<p class="text-muted small visible-print">Dicetak oleh <?php echo $_SESSION['media-nama'] ?>, pada <?php echo date("d M Y	"); ?> </p>
 
 <?php
