@@ -9,6 +9,7 @@
 	include "../inc/blob.php";
 	include "../po/class.po.php";
 	require_once "../inc/PHPExcel.php";
+	include "../inc/phpqrcode/qrlib.php";
 	
 	// DEFINE ALL CLASSES
 	$data = new po_po();
@@ -45,9 +46,9 @@
 	if ($query = $data->runQuery($q)) {
 		while ($rs = $query->fetch_array()) {
 			$noPO = $rs['no_po'];
-			$tglPO = $rs['tgl_po'];
+			$tglPO = date("d-m-Y",strtotime($rs['tgl_po']));
 			$top = $rs['top'];
-			$tglKirim = $rs['tgl_kirim'];
+			$tglKirim = date("d-m-Y",strtotime($rs['tgl_kirim']));
 			$nama = $rs['nama'];
 			$alamat = $rs['alamat'];
 			$telp = $rs['telp'];
@@ -148,10 +149,16 @@
 	// DRAW BORDER ON DO DETAIL ITEMS
 	$objExcel->getActiveSheet()->getStyle('A11:I'.$startRow)->applyFromArray($styleBorder);
 	
+	//create qrcode
+	$fileName = 'qrcode.png'; 
+    $pngAbsoluteFilePath = $fileName;
+	QRcode::png(base64_encode($noPO), $pngAbsoluteFilePath, QR_ECLEVEL_L, 2);
+	
 	// WRITE DIGITAL SIGNATURE HEADER
 	$startRow++; $startRow++;
 	$objExcel->getActiveSheet()->SetCellValue('A'.$startRow, "Ordered By ".$orderedBy);
 	$objExcel->getActiveSheet()->SetCellValue('A'.($startRow+1), "Approved By ".$approvedBy);
+	//$objExcel->getActiveSheet()->SetCellValue('A'.($startRow+2), base64_encode(base64_encode($noPO)));
 	// $objExcel->getActiveSheet()->SetCellValue('E'.$startRow, "Ordered By");
 	// $objExcel->getActiveSheet()->SetCellValue('G'.$startRow, "Approved By");
 	$objExcel->getActiveSheet()->SetCellValue('I'.$startRow, "Confirmed By");
@@ -162,6 +169,16 @@
 	// $objExcel->getActiveSheet()->mergeCells('E'.($startRow+1).':F'.($startRow+3));
 	// $objExcel->getActiveSheet()->mergeCells('G'.($startRow+1).':H'.($startRow+3));
 	$objExcel->getActiveSheet()->mergeCells('I'.($startRow+1).':I'.($startRow+3));
+	
+	//DRAW QRCODE
+	$objOrderedSign->setName('QRCode');
+	$objOrderedSign->setDescription('QRCode');
+	$objOrderedSign->setPath('qrcode.png');
+	//$objOrderedSign->setHeight(60);
+	$objOrderedSign->setCoordinates('A'.($startRow+2));
+	//$offsetX =(132 - $objOrderedSign->getWidth())/2;
+	//$objOrderedSign->setOffsetX($offsetX);
+	$objOrderedSign->setWorksheet($objExcel->getActiveSheet());
 	
 	// DRAW DIGITAL SIGNATURE
 	// if ($ttdOrderedBy != "-") {
@@ -217,5 +234,6 @@
 	header('Content-type: application/vnd.ms-excel');
 	header('Content-Disposition: attachment; filename="'.$noPO.'_'.$layout.'.xls"');
 	$objWriter->save('php://output');
+	unlink('qrcode.png');
 	
 ?>
