@@ -43,6 +43,7 @@
 	$objExcel->getActiveSheet()->SetCellValue('C4', $namaSupplier);
 	
 	$startRow = 7;
+	$totalBiaya = 0;
 	if ($query = $data->getDaftarPO("%", $supplier, $tglAwal, $tglAkhir, "%")) {
 		while ($rs = $query->fetch_array()) {
 			switch ($rs['status']) {
@@ -76,19 +77,26 @@
 			$objExcel->getActiveSheet()->SetCellValue('H'.$startRow, $status);
 			$objExcel->getActiveSheet()->SetCellValue('I'.$startRow, ($rs['tgl_acc'] == "0000-00-00"?"-":$rs['tgl_acc']));
 			$objExcel->getActiveSheet()->SetCellValue('J'.$startRow, $asesor);
+			$objExcel->getActiveSheet()->SetCellValue('K'.$startRow, "Rp ".number_format($rs['total_biaya'],0,",","."));
 			
 			$objExcel->getActiveSheet()->mergeCells('A'.$startRow.':C'.$startRow);
 			$objExcel->getActiveSheet()->getStyle('G'.$startRow)->getAlignment()->setWrapText(true);
 			$objExcel->getActiveSheet()->getRowDimension($startRow)->setRowHeight(40);
 			$startRow++;
+			$totalBiaya += $rs['total_biaya'];
 			
 		}
 	}
-
-	$objExcel->getActiveSheet()->getStyle('A6:J'.($startRow-1))->applyFromArray($styleBorder);
+	$objExcel->getActiveSheet()->SetCellValue('A'.$startRow, "Total Biaya");
+	$objExcel->getActiveSheet()->mergeCells('A'.$startRow.':J'.$startRow);
+	$objExcel->getActiveSheet()->SetCellValue('K'.$startRow, "Rp ".number_format($totalBiaya,0,",","."));
+	
+	
+	$objExcel->getActiveSheet()->getStyle('A6:K'.$startRow)->applyFromArray($styleBorder);
+	
 	
 	// WRITE DIGITAL SIGNATURE HEADER
-	$startRow++;
+	$startRow++; $startRow++;
 	$objExcel->getActiveSheet()->SetCellValue('H'.$startRow, "Printed By");
 	$objExcel->getActiveSheet()->mergeCells('H'.$startRow.':I'.$startRow);
 	
