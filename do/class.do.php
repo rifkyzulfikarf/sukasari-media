@@ -82,7 +82,7 @@ class do_do extends koneksi{
 		$thSekarang = date("Y");
 		$cari = $thSekarang."-".$blnSekarang."-";
 		
-		if ($qKode = $this->runQuery("SELECT MAX(`no`) AS hasil FROM `do` WHERE DATE(`timestamp`) LIKE '$cari%'")) {
+		if ($qKode = $this->runQuery("SELECT MAX(`no`) AS hasil FROM `do` WHERE DATE(`tgl_do`) LIKE '$cari%'")) {
 			$rsKode = $qKode->fetch_array();
 			if ($rsKode['hasil'] == null) {
 				$autokode = "DO".$blnSekarang.$thSekarang."000001";
