@@ -97,7 +97,7 @@ if( isset($_POST['apa']) && $_POST['apa']<>"" ){
 				$tglAwal = $_POST['tglAwal'];
 				$tglAkhir = $_POST['tglAkhir'];
 				
-				if ($_SESSION['media-status'] == e_code("2") || $_SESSION['media-status'] == e_code("9")) {
+				if ($_SESSION['media-status'] == e_code("2") || $_SESSION['media-status'] == e_code("9") || $_SESSION['media-level'] == "2") {
 					$area = "%";
 				} else {
 					$area = $_SESSION['media-area'];
