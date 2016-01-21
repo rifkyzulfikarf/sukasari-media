@@ -25,7 +25,7 @@ class pelanggan extends koneksi{
 		$area = $this->clearText($area);
 		if( $daftar = $this->runQuery("SELECT `pelanggan`.*, `area`.`area` as `nm_area`, `rayon`.`rayon` as `nm_rayon` 
 		FROM `pelanggan` INNER JOIN `area` ON `area`.`id`=`pelanggan`.`area` INNER JOIN `rayon` ON `rayon`.`id`=`pelanggan`.`rayon` 
-		WHERE `pelanggan`.`nama` like '%".$cari."%' AND `pelanggan`.`hapus`= '0' AND `pelanggan`.`area` = '$area' 
+		WHERE `pelanggan`.`nama` like '%".$cari."%' AND `pelanggan`.`hapus`= '0' AND `pelanggan`.`area` LIKE '$area' 
 		ORDER BY `pelanggan`.`id` DESC ") ){
 			if( $daftar->num_rows > 0 ){
 				return $daftar;

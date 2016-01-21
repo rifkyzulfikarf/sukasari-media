@@ -152,19 +152,17 @@ if( isset($_POST['apa']) && $_POST['apa']<>"" ){
 				$collect = array();
 				$tglAwal = $_POST['tglAwal'];
 				$tglAkhir = $_POST['tglAkhir'];
+				$id = $_POST['id'];
 				
-				if ($_SESSION['media-status'] == e_code("2") || $_SESSION['media-status'] == e_code("9") || $_SESSION['media-level'] == "2") {
-					$area = "%";
-				} else {
-					$area = $_SESSION['media-area'];
-				}
+				// $q = "SELECT `pelanggan`.`id`, `pelanggan`.`noreg`, `pelanggan`.`nama`, `pelanggan`.`alamat`, `area`.`area`, SUM(`do_detail`.`jml`) AS jumlah 
+						// FROM `do_detail` INNER JOIN `do` ON (`do_detail`.`id_do` = `do`.`id`) INNER JOIN `pelanggan` 
+						// ON (`do`.`id_pelanggan` = `pelanggan`.`id`) INNER JOIN `area` ON (`do`.`area` = `area`.`id`) 
+						// WHERE `pelanggan`.`id` = '$id' AND `do_detail`.`hapus` = '0' AND `do`.`hapus` = '0' AND `do`.`tgl_do` BETWEEN '$tglAwal' AND '$tglAkhir'  
+						// GROUP BY `pelanggan`.`nama`";
 				
-				$q = "SELECT `pelanggan`.`id`, `pelanggan`.`noreg`, `pelanggan`.`nama`, `pelanggan`.`alamat`, `area`.`area`, SUM(`do_detail`.`jml`) AS jumlah 
-						FROM `do_detail` INNER JOIN `do` ON (`do_detail`.`id_do` = `do`.`id`) INNER JOIN `pelanggan` 
-						ON (`do`.`id_pelanggan` = `pelanggan`.`id`) INNER JOIN `area` ON (`do`.`area` = `area`.`id`) 
-						WHERE `do_detail`.`hapus` = '0' AND `do`.`hapus` = '0' AND `do`.`tgl_do` BETWEEN '$tglAwal' AND '$tglAkhir' 
-						AND `pelanggan`.`area` LIKE '".$area."' 
-						GROUP BY `pelanggan`.`nama`";
+				$q = "SELECT `pelanggan`.`id`, `pelanggan`.`noreg`, `pelanggan`.`nama`, `pelanggan`.`alamat`, `area`.`area` 
+						FROM `pelanggan` INNER JOIN `area` ON (`pelanggan`.`area` = `area`.`id`) 
+						WHERE `pelanggan`.`id` = '$id'";
 				
 				if ($query = $data->runQuery($q)) {
 					while ($rs = $query->fetch_array()) {
@@ -172,7 +170,20 @@ if( isset($_POST['apa']) && $_POST['apa']<>"" ){
 						array_push($detail, $rs["noreg"]." - ".$rs["nama"]);
 						array_push($detail, $rs["alamat"]);
 						array_push($detail, $rs["area"]);
-						array_push($detail, $rs['jumlah']);
+						
+						$qJumlah = "SELECT SUM(`do_detail`.`jml`) AS `jumlah` FROM `do_detail` 
+									INNER JOIN `do` ON(`do_detail`.`id_do` = `do`.`id`) WHERE `do`.`id_pelanggan` = '".$rs["id"]."' 
+									AND `do`.`tgl_do` BETWEEN '$tglAwal' AND '$tglAkhir'";
+						if ($queryJumlah = $data->runQuery($qJumlah)) {
+							$rsJumlah = $queryJumlah->fetch_array();
+							
+							if ($rsJumlah["jumlah"] != null) {
+								array_push($detail, $rsJumlah["jumlah"]);
+							} else {
+								array_push($detail, "0");
+							}
+						}
+						
 						array_push($detail, "<button class='btn btn-primary' data-id='".$rs['id']."' data-awal='".$_POST['tglAwal']."' 
 									data-akhir='".$_POST['tglAkhir']."' id='btn-show-detail'><i class='fa fa-eye'></i></button>");
 						array_push($collect, $detail);

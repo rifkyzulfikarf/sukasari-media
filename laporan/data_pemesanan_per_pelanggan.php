@@ -9,6 +9,20 @@
 	<hr>
 	<div class="row">
 		<div class="col-md-12">
+			<div class="form-group">
+				<label class="col-sm-9"></label>
+				<div class="col-sm-3"><input type="text" class="form-control" id="cari" name="cari" placeholder="Cari pelanggan" ></div>
+			</div><br>
+			<input type="hidden" id="aksi" name="aksi" value="<?php echo e_url('jabatan/jabatan_aux.php'); ?>">
+			<div class="form-group">
+				<label for="inputNama" class="col-sm-2 control-label">Pelanggan</label>
+				<div class="col-sm-10">
+					<select name="pelanggan" id="pelanggan" class="chosen-select form-control">
+						<option value=""></option>
+						
+					</select>
+				</div>
+			</div><br>
 			<label for="cariTanggal" class="col-sm-2 control-label">Periode Pesanan</label>
 			<div class="col-sm-10">
 				<div class="col-sm-3"><input type="text" name="tglAwal" id="tglAwal" class="form-control " placeholder="Tanggal Awal"></div>
@@ -106,6 +120,7 @@ $(document).ready(function(){
 				d.apa = "data-pesanan-daftar";
 				d.tglAwal = $("#tglAwal").val();
 				d.tglAkhir = $("#tglAkhir").val();
+				d.id = $("#pelanggan").val();
 			}
 		}
 	});
@@ -169,6 +184,28 @@ $(document).ready(function(){
 			'max-height':'100%'});
 	});
 	
+	$(document).on("keyup","#cari", function(ev){
+		ev.preventDefault();
+		cariPelanggan();
+	});
+	
+	function cariPelanggan(){
+		if( $("#cari").val().length > 2 ){
+			$.ajax({
+	        	url : "./",
+	            method: "POST",
+	            cache: false,
+	            data: {"aksi" : "<?php echo e_url('laporan/cari_pelanggan.php'); ?>", "title" : "D.O.", "cari" : $("#cari").val()},
+	            success: function(event){
+	            	$('#pelanggan').html(event);
+	            	$('#pelanggan').trigger("chosen:updated");
+				},
+	            error: function(){
+	                alert('Gagal terkoneksi dengan server, coba lagi..!');
+				}
+	        });	
+		}
+	};
 	
 });
 
