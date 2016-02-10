@@ -45,7 +45,7 @@
 					<tr>
 						<th>No DO</th>
 						<th>Tgl DO</th>
-						<th>Area</th>
+						<th>Rayon</th>
 						<th>Pelanggan</th>
 						<th>Area</th>
 						<th>Status</th>
