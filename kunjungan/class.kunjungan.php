@@ -109,7 +109,7 @@ class kunjungan extends koneksi{
 		$cust = $this->clearText($cust);
 		$job = $this->clearText($job);
 
-		if( $cari = $this->runQuery("SELECT DISTINCT `visit`.* , DATE(`visit`.`tgl`) AS `tanggal`, TIME(`visit`.`tgl`) as `jam`, `pelanggan`.`noreg`, `pelanggan`.`nama`, `pelanggan`.`alamat`, `pelanggan`.`sub_pasar`, `area`.`area` as `kota` FROM `visit` 
+		if( $cari = $this->runQuery("SELECT DISTINCT `visit`.* , DATE(`visit`.`tgl`) AS `tanggal`, TIME(`visit`.`tgl`) as `jam`, `pelanggan`.`noreg`, `pelanggan`.`nama`, `pelanggan`.`alamat`, `pelanggan`.`pasar`, `pelanggan`.`sub_pasar`, `area`.`area` as `kota` FROM `visit` 
 			INNER JOIN `pelanggan` ON `visit`.`id_pelanggan` = `pelanggan`.`id` 
 			INNER JOIN `area` ON `area`.`id` = `pelanggan`.`area`  
 			INNER JOIN `visit_detail` ON `visit`.`id` = `visit_detail`.`id_visit` 
@@ -132,7 +132,7 @@ class kunjungan extends koneksi{
 
 		$spv = $this->clearText($spv);
 
-		if( $cari = $this->runQuery("SELECT `visit`.* , TIME(`visit`.`tgl`) as `jam`, `pelanggan`.`noreg`, `pelanggan`.`nama`, `pelanggan`.`alamat`, `pelanggan`.`sub_pasar`, `area`.`area` as `kota` FROM `visit` INNER JOIN `pelanggan` ON `visit`.`id_pelanggan` = `pelanggan`.`id` INNER JOIN `area` ON `area`.`id` = `pelanggan`.`area`  WHERE `visit`.`id_karyawan` like '$spv' &&  DATE(`visit`.`tgl`) like '$tgl' ") ){	
+		if( $cari = $this->runQuery("SELECT `visit`.* , TIME(`visit`.`tgl`) as `jam`, `pelanggan`.`noreg`, `pelanggan`.`nama`, `pelanggan`.`alamat`, `pelanggan`.`pasar`, `pelanggan`.`sub_pasar`, `area`.`area` as `kota` FROM `visit` INNER JOIN `pelanggan` ON `visit`.`id_pelanggan` = `pelanggan`.`id` INNER JOIN `area` ON `area`.`id` = `pelanggan`.`area`  WHERE `visit`.`id_karyawan` like '$spv' &&  DATE(`visit`.`tgl`) like '$tgl' ") ){	
 
 			if( $cari->num_rows> 0 ){
 				return $cari;

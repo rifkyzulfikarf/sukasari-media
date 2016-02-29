@@ -61,7 +61,7 @@ if( isset($_REQUEST['tgl_awal']) && isset($_REQUEST['tgl_akhir']) && isset($_REQ
 				<table class="table table-hover table-striped table-mod">
 					<thead>
 						<tr>
-							<th>No.Register</th><th>Tanggal</th><th>Pelanggan</th><th>Alamat</th><th>Pasar</th><th>Kota</th><th>Waktu</th><th class="text-center">Tindakan</th><th>Geolokasi</th>
+							<th>No.Register</th><th>Tanggal</th><th>Pelanggan</th><th>Alamat</th><th>Pasar</th><th>Sub Pasar</th><th>Waktu</th><th class="text-center">Tindakan</th><th>Geolokasi</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -73,8 +73,8 @@ if( isset($_REQUEST['tgl_awal']) && isset($_REQUEST['tgl_akhir']) && isset($_REQ
 								<td>".date("d-m-Y", strtotime($rs['tanggal']))."</td>
 								<td>".$rs['nama']."</td>
 								<td>".$rs['alamat']."</td>
+								<td>".$rs['pasar']."</td>
 								<td>".$rs['sub_pasar']."</td>
-								<td>".$rs['kota']."</td>
 								<td class='text-center'>".$rs['jam']."</td>
 								<td>";
 								$details = "";

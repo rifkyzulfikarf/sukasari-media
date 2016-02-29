@@ -49,7 +49,7 @@
 				<table class="table table-hover table-striped table-mod">
 					<thead>
 						<tr>
-							<th>No.Register</th><th>Pelanggan</th><th>Alamat</th><th>Pasar</th><th>Kota</th><th>Waktu</th><th class="text-center">Tindakan</th><th>Geolokasi</th>
+							<th>No.Register</th><th>Pelanggan</th><th>Alamat</th><th>Pasar</th><th>Sub Pasar</th><th>Waktu</th><th class="text-center">Tindakan</th><th>Geolokasi</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -61,8 +61,8 @@
 								<td>".$rs['noreg']."</td>
 								<td>".$rs['nama']."</td>
 								<td>".$rs['alamat']."</td>
+								<td>".$rs['pasar']."</td>
 								<td>".$rs['sub_pasar']."</td>
-								<td class='text-center'>".$rs['kota']."</td>
 								<td class='text-center'>".$rs['jam']."</td>
 								<td>";
 								$details = "";
