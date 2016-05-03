@@ -76,7 +76,7 @@ if (isset($_POST['no_do']) && $_POST['no_do'] != ""){
 							$tglaccpo = ($rs['tgl_acc_po']!="0000-00-00")?date("d-m-y",strtotime($rs['tgl_acc_po'])):"00-00-00";
 							$tglkesup = ($rs['tgl_kirim_ke_supplier']!="0000-00-00")?date("d-m-y",strtotime($rs['tgl_kirim_ke_supplier'])):"00-00-00";
 							$tglkirim = ($rs['tgl_kirim']!="0000-00-00")?date("d-m-y",strtotime($rs['tgl_kirim'])):"00-00-00";
-							$tglkirimsales = ($rs['tgl_kirim_ke_sales']!="0000-00-00")?date("d-m-y",strtotime($rs['tgl_kirim_sales'])):"00-00-00";
+							$tglkirimsales = ($rs['tgl_kirim_ke_sales']!="0000-00-00")?date("d-m-y",strtotime($rs['tgl_kirim_ke_sales'])):"00-00-00";
 							
 							if ($tglpo != "00-00-00" && $tglkirim != "00-00-00") {
 								$durasi = floor((strtotime($rs['tgl_kirim'])-strtotime($rs['tgl_po']))/(60*60*24));
